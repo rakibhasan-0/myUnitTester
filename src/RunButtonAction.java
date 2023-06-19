@@ -6,9 +6,9 @@ import java.lang.reflect.Method;
 
 
 public class RunButtonAction implements ActionListener {
-    private JButton runButton;
-    private ReadTestClass readClass;
-    private String className;
+    private final JButton runButton;
+    private final ReadTestClass readClass;
+    private final String className;
     private String resultMessages;
     private int successCount;
     private int failureCount;
@@ -34,6 +34,7 @@ public class RunButtonAction implements ActionListener {
 
         if (e.getSource().equals(runButton)){
             readClass.verifyCorrectClass();
+
             try {
                 Class<?> clazz = Class.forName(className);
                 Object instance = clazz.getDeclaredConstructor().newInstance();
@@ -51,7 +52,7 @@ public class RunButtonAction implements ActionListener {
                         }
                     }
                 }
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
+            }catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
                      InvocationTargetException | NoSuchMethodException ex) {
                 throw new RuntimeException(ex);
             }
