@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClearText {
     private JTextArea textArea;
@@ -23,6 +25,8 @@ public class ClearText {
     public JButton getClearButton() {
         return clearButton;
     }
+
+
 
 
 }
