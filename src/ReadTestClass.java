@@ -2,14 +2,14 @@ import javax.swing.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-
 public class ReadTestClass {
     private JTextField textField;
     private final String interfaces = "se.umu.cs.unittest.TestClas";
     private boolean isTestInterface;
     private boolean setUp = false;
     private boolean tearDown = false;
-    private String className;
+    private final String className;
+
 
     public ReadTestClass(JTextField textField){
         this.textField = textField;
