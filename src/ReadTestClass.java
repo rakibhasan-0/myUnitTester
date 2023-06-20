@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+
 public class ReadTestClass {
     private JTextField textField;
     private final String interfaces = "se.umu.cs.unittest.TestClas";
@@ -39,6 +40,9 @@ public class ReadTestClass {
         boolean hasParameter = false;
 
         try{
+            // In that reading class I was skipping interface checking.
+            // Because I was getting up-expecting errors messages.
+
             Class<?> clazz = Class.forName(className);
             Constructor<?>[] constructors = clazz.getConstructors();
 
@@ -59,6 +63,8 @@ public class ReadTestClass {
 
     }
 
+
+
     public boolean checkIfSetUpAndTearDownExists (){
         try {
             Class<?> clazz = Class.forName(this.className);
@@ -78,6 +84,8 @@ public class ReadTestClass {
             throw new RuntimeException(e);
         }
     }
+
+
 
     public String getClassName(){
         return className;

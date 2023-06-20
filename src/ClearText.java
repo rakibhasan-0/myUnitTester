@@ -3,11 +3,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ClearText {
-    private JTextArea textArea;
     private JButton clearButton;
 
-    public ClearText(JTextArea textArea, JFrame frame) {
-        this.textArea = textArea;
+    public ClearText(JFrame frame) {
         JPanel clearPanel = new JPanel();
         clearButton = new JButton("CLEAR");
         clearPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
@@ -16,9 +14,6 @@ public class ClearText {
         frame.add(clearPanel, BorderLayout.SOUTH);
     }
 
-    public void clearText() {
-        textArea.setText("");
-    }
 
     public JButton getClearButton() {
         return clearButton;

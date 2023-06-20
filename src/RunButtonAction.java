@@ -4,41 +4,34 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
 public class RunButtonAction implements ActionListener {
     private final JButton runButton;
-    //private final ReadTestClass readClass;
     private String className;
     private String resultMessages;
     private final JTextField textField;
     private int successCount;
     private int failureCount;
     private int exceptionCount;
+    private JTextArea textArea;
 
-
-    public RunButtonAction (JTextField textField, JButton runButton) {
-
+    public RunButtonAction(JTextField textField, JButton runButton, JTextArea textArea) {
         this.runButton = runButton;
-        this.runButton.addActionListener(this);
-        this.resultMessages = "";
         this.textField = textField;
-
+        this.textArea = textArea;
         this.successCount = 0;
         this.failureCount = 0;
         this.exceptionCount = 0;
-
+        this.resultMessages = " ";
+        this.runButton.addActionListener(this);
     }
-
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource().equals(runButton)){
-
+        if (e.getSource().equals(runButton)) {
+            reset();
             ReadTestClass readClass = new ReadTestClass(textField);
             this.className = readClass.getClassName();
-            System.out.println("class name" +className);
+            System.out.println("class name: " + className);
             readClass.verifyCorrectClass();
 
             try {
@@ -60,16 +53,16 @@ public class RunButtonAction implements ActionListener {
                     }
                 }
 
-                System.out.println(resultMessages);
+                resultMessages = resultMessages + "\n\n\n" + successCount + " tests succeeded\n"
+                        + failureCount + " tests failed\n" + exceptionCount + " tests failed because of exception\n";
+                textArea.setText(resultMessages);
 
-            }catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
                      InvocationTargetException | NoSuchMethodException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
-
-
 
     private Method findMethod(Class<?> clazz, String methodName) throws NoSuchMethodException {
         try {
@@ -79,15 +72,11 @@ public class RunButtonAction implements ActionListener {
         }
     }
 
-
-
     private boolean isTestMethod(Method method) {
         return method.getName().startsWith("test") &&
                 method.getParameterCount() == 0 &&
                 method.getReturnType() == boolean.class;
     }
-
-
 
     private void invokeTestMethod(Object instance, Method method) {
         try {
@@ -98,51 +87,35 @@ public class RunButtonAction implements ActionListener {
         }
     }
 
-
-
     private void processTestResult(String methodName, boolean result) {
         if (result) {
             resultMessages += methodName + ": SUCCESS\n";
             successCount++;
-            System.out.println("Pass");
         } else {
             resultMessages += methodName + ": FAIL\n";
             failureCount++;
-            System.out.println("Fail");
         }
     }
 
-
-
     private void processTestException(String methodName, Exception ex) {
-        resultMessages += methodName + ": FAIL Generated a: " + ex.getMessage() + "\n";
+        Throwable cause = ex.getCause();
+        resultMessages += methodName + ": FAIL Generated a " + cause.getClass().getSimpleName() + "\n";
         exceptionCount++;
-        System.out.println("Exception");
     }
 
+    public void reset() {
+        resultMessages = "";
+        successCount = 0;
+        failureCount = 0;
+        exceptionCount = 0;
+        textArea.setText("");
+    }
 
-
-    public String getResultMessages(){
+    public String getResultMessages() {
         return resultMessages;
     }
 
-
-
-    public int getFailureCount(){
-        return failureCount;
+    public JTextArea getTextArea() {
+        return textArea;
     }
-
-
-
-    public int getSuccessCount(){
-        return successCount;
-    }
-
-
-
-    public int getExceptionCount(){
-        return exceptionCount;
-    }
-
-
 }

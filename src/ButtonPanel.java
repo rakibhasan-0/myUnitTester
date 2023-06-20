@@ -2,10 +2,10 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-
 public class ButtonPanel {
     private JFrame frame;
     private JButton runButton;
+    private JButton resetButton; // Added reset button
     private JTextField textField;
 
     public ButtonPanel() {
@@ -17,9 +17,7 @@ public class ButtonPanel {
         setupButtonPanel();
 
         frame.setVisible(true);
-        frame.setSize(500, 500);
-
-        System.out.println(textField.getText());
+        frame.setSize(500, 600);
     }
 
     private void setupFrame() {
@@ -48,8 +46,7 @@ public class ButtonPanel {
         return runButton;
     }
 
-    public JTextField getTextField(){
+    public JTextField getTextField() {
         return textField;
     }
-
 }
