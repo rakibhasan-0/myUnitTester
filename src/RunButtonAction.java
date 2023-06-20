@@ -15,6 +15,7 @@ public class RunButtonAction implements ActionListener {
     private int failureCount;
     private int exceptionCount;
 
+
     public RunButtonAction (JTextField textField, JButton runButton) {
 
         this.runButton = runButton;
@@ -29,14 +30,17 @@ public class RunButtonAction implements ActionListener {
     }
 
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource().equals(runButton)){
+
             ReadTestClass readClass = new ReadTestClass(textField);
             this.className = readClass.getClassName();
             System.out.println("class name" +className);
             readClass.verifyCorrectClass();
+
             try {
                 Class<?> clazz = Class.forName(className);
                 Object instance = clazz.getDeclaredConstructor().newInstance();
@@ -45,6 +49,7 @@ public class RunButtonAction implements ActionListener {
 
                 for (Method method : clazz.getMethods()) {
                     if (isTestMethod(method)) {
+                        System.out.println(method.getName());
                         if (setUpMethod != null && tearDownMethod != null) {
                             setUpMethod.invoke(instance);
                         }
@@ -54,12 +59,16 @@ public class RunButtonAction implements ActionListener {
                         }
                     }
                 }
+
+                System.out.println(resultMessages);
+
             }catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
                      InvocationTargetException | NoSuchMethodException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
+
 
 
     private Method findMethod(Class<?> clazz, String methodName) throws NoSuchMethodException {
@@ -71,11 +80,13 @@ public class RunButtonAction implements ActionListener {
     }
 
 
+
     private boolean isTestMethod(Method method) {
         return method.getName().startsWith("test") &&
                 method.getParameterCount() == 0 &&
                 method.getReturnType() == boolean.class;
     }
+
 
 
     private void invokeTestMethod(Object instance, Method method) {
@@ -88,24 +99,25 @@ public class RunButtonAction implements ActionListener {
     }
 
 
+
     private void processTestResult(String methodName, boolean result) {
         if (result) {
             resultMessages += methodName + ": SUCCESS\n";
             successCount++;
-            System.out.println("current success rates"+ successCount);
+            System.out.println("Pass");
         } else {
             resultMessages += methodName + ": FAIL\n";
             failureCount++;
-            System.out.println("current fail rates"+ failureCount);
+            System.out.println("Fail");
         }
     }
 
 
 
     private void processTestException(String methodName, Exception ex) {
-        resultMessages += methodName + ": FAIL Generated exception: " + ex.getMessage() + "\n";
+        resultMessages += methodName + ": FAIL Generated a: " + ex.getMessage() + "\n";
         exceptionCount++;
-        System.out.println("Exception count" + exceptionCount);
+        System.out.println("Exception");
     }
 
 
