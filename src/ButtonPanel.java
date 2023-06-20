@@ -1,7 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import static java.awt.Font.PLAIN;
+
 
 public class ButtonPanel {
     private JFrame frame;
@@ -18,6 +18,8 @@ public class ButtonPanel {
 
         frame.setVisible(true);
         frame.setSize(500, 500);
+
+        System.out.println(textField.getText());
     }
 
     private void setupFrame() {
@@ -45,4 +47,9 @@ public class ButtonPanel {
     public JButton getButton() {
         return runButton;
     }
+
+    public JTextField getTextField(){
+        return textField;
+    }
+
 }

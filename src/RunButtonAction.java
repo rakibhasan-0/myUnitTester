@@ -7,9 +7,10 @@ import java.lang.reflect.Method;
 
 public class RunButtonAction implements ActionListener {
     private final JButton runButton;
-    private final ReadTestClass readClass;
-    private final String className;
+    //private final ReadTestClass readClass;
+    private String className;
     private String resultMessages;
+    private final JTextField textField;
     private int successCount;
     private int failureCount;
     private int exceptionCount;
@@ -18,10 +19,8 @@ public class RunButtonAction implements ActionListener {
 
         this.runButton = runButton;
         this.runButton.addActionListener(this);
-        this.readClass = new ReadTestClass(textField);
-
-        this.className = readClass.getClassName();
         this.resultMessages = "";
+        this.textField = textField;
 
         this.successCount = 0;
         this.failureCount = 0;
@@ -29,12 +28,15 @@ public class RunButtonAction implements ActionListener {
 
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource().equals(runButton)){
+            ReadTestClass readClass = new ReadTestClass(textField);
+            this.className = readClass.getClassName();
+            System.out.println("class name" +className);
             readClass.verifyCorrectClass();
-
             try {
                 Class<?> clazz = Class.forName(className);
                 Object instance = clazz.getDeclaredConstructor().newInstance();
@@ -59,6 +61,7 @@ public class RunButtonAction implements ActionListener {
         }
     }
 
+
     private Method findMethod(Class<?> clazz, String methodName) throws NoSuchMethodException {
         try {
             return clazz.getMethod(methodName);
@@ -66,6 +69,7 @@ public class RunButtonAction implements ActionListener {
             return null;
         }
     }
+
 
     private boolean isTestMethod(Method method) {
         return method.getName().startsWith("test") &&
@@ -88,9 +92,11 @@ public class RunButtonAction implements ActionListener {
         if (result) {
             resultMessages += methodName + ": SUCCESS\n";
             successCount++;
+            System.out.println("current success rates"+ successCount);
         } else {
             resultMessages += methodName + ": FAIL\n";
             failureCount++;
+            System.out.println("current fail rates"+ failureCount);
         }
     }
 
@@ -99,6 +105,7 @@ public class RunButtonAction implements ActionListener {
     private void processTestException(String methodName, Exception ex) {
         resultMessages += methodName + ": FAIL Generated exception: " + ex.getMessage() + "\n";
         exceptionCount++;
+        System.out.println("Exception count" + exceptionCount);
     }
 
 

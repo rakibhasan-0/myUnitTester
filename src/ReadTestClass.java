@@ -14,28 +14,24 @@ public class ReadTestClass {
     public ReadTestClass(JTextField textField){
         this.textField = textField;
         isTestInterface = false;
-        className = textField.getName();
+        className = textField.getText();
     }
 
 
     public void verifyCorrectClass() throws IllegalStateException {
-
         try {
             Class<?> clazz = Class.forName(className);
-            Class<?> interFace = Class.forName(interfaces);
-            boolean desiredInterface = interFace.isAssignableFrom(clazz);
+            System.out.println("The class name is " + className);
+           // Class<?> interFace = Class.forName(interfaces);
+           // boolean desiredInterface = interFace.isAssignableFrom(clazz);
 
-            if(desiredInterface){
-                isTestInterface = true;
-                checkConstructor(className);
-            }else{
-                throw new RuntimeException("The interface isn't correct");
-            }
-        }catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            checkConstructor(className);
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load class: " + className, e);
         }
-
     }
+
 
 
     private void checkConstructor (String className){
@@ -47,7 +43,7 @@ public class ReadTestClass {
             Constructor<?>[] constructors = clazz.getConstructors();
 
             for(Constructor<?> constructor: constructors){
-                if(constructor.getParameterCount() == 0){
+                if(constructor.getParameterCount() > 0){
                     hasParameter = true;
                     break;
                 }
@@ -67,6 +63,7 @@ public class ReadTestClass {
         try {
             Class<?> clazz = Class.forName(this.className);
             Method[] methods = clazz.getDeclaredMethods();
+
             for(Method method : methods){
                 if(method.getName().equals("setUp") && method.getParameterCount() == 0){
                     setUp = true;
@@ -75,6 +72,7 @@ public class ReadTestClass {
                     tearDown = true;
                 }
             }
+
             return setUp && tearDown;
         }catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

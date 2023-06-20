@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.border.EmptyBorder;
 
-public class TextVisualization implements ActionListener {
+public class TextVisualization {
     JTextArea textArea;
     JFrame frame;
     JButton runButton;
@@ -31,11 +29,6 @@ public class TextVisualization implements ActionListener {
         panel.setBorder(new EmptyBorder(0, 0, 80, 0));
 
         frame.add(panel, BorderLayout.CENTER);
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
     }
 
