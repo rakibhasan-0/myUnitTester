@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 public class ClearButtonAction implements ActionListener {
     private final JButton clearButton;
     private JTextArea textArea;
-
     private String resultMessages;
 
     public ClearButtonAction(JButton clearButton, JTextArea textArea, String resultMessages) {

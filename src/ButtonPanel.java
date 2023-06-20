@@ -2,13 +2,14 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class ButtonPanel {
+public class ButtonPanel{
     private JFrame frame;
     private JButton runButton;
     private JButton resetButton; // Added reset button
     private JTextField textField;
 
-    public ButtonPanel() {
+    public ButtonPanel(){
+
         frame = new JFrame();
         runButton = new JButton("RUN");
         textField = new JTextField();

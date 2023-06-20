@@ -1,4 +1,4 @@
-public class main {
+public class Main {
     public static void main(String[] args){
 
         ButtonPanel buttonPanel = new ButtonPanel();
@@ -12,4 +12,5 @@ public class main {
                 run.getResultMessages());
 
     }
+
 }

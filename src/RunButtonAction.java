@@ -27,11 +27,12 @@ public class RunButtonAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(runButton)) {
+
+        if (e.getSource().equals(runButton)){
+
             reset();
             ReadTestClass readClass = new ReadTestClass(textField);
             this.className = readClass.getClassName();
-            //System.out.println("class name: " + className);
             readClass.verifyCorrectClass();
 
             try {
@@ -45,23 +46,27 @@ public class RunButtonAction implements ActionListener {
                 Method setUpMethod = findMethod(clazz, "setUp");
                 Method tearDownMethod = findMethod(clazz, "tearDown");
 
-                for (Method method : clazz.getMethods()) {
-                    if (isTestMethod(method)) {
-                        if (setUpMethod != null && tearDownMethod != null) {
-                            setUpMethod.invoke(instance);
-                        }
-                        invokeTestMethod(instance, method);
-                        if (setUpMethod != null && tearDownMethod != null) {
-                            tearDownMethod.invoke(instance);
-                        }
-                    }
-                }
+                executionOfMethods(clazz, instance, setUpMethod, tearDownMethod);
 
                 addTextToTextArea();
 
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
                      InvocationTargetException | NoSuchMethodException ex) {
                 throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    private void executionOfMethods(Class<?> clazz, Object instance, Method setUpMethod, Method tearDownMethod) throws IllegalAccessException, InvocationTargetException {
+        for (Method method : clazz.getMethods()) {
+            if (isTestMethod(method)){
+                if (setUpMethod != null && tearDownMethod != null) {
+                    setUpMethod.invoke(instance);
+                }
+                invokeTestMethod(instance, method);
+                if (setUpMethod != null && tearDownMethod != null) {
+                    tearDownMethod.invoke(instance);
+                }
             }
         }
     }

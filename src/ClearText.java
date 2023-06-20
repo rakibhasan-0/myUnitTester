@@ -3,7 +3,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ClearText {
-    private JButton clearButton;
+    private final JButton clearButton;
 
     public ClearText(JFrame frame) {
         JPanel clearPanel = new JPanel();
