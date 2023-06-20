@@ -31,18 +31,22 @@ public class RunButtonAction implements ActionListener {
             reset();
             ReadTestClass readClass = new ReadTestClass(textField);
             this.className = readClass.getClassName();
-            System.out.println("class name: " + className);
+            //System.out.println("class name: " + className);
             readClass.verifyCorrectClass();
 
             try {
                 Class<?> clazz = Class.forName(className);
+
+                if (!TestClass.class.isAssignableFrom(clazz)) {
+                    throw new RuntimeException("That class isn't appropriate ");
+                }
+
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 Method setUpMethod = findMethod(clazz, "setUp");
                 Method tearDownMethod = findMethod(clazz, "tearDown");
 
                 for (Method method : clazz.getMethods()) {
                     if (isTestMethod(method)) {
-                        System.out.println(method.getName());
                         if (setUpMethod != null && tearDownMethod != null) {
                             setUpMethod.invoke(instance);
                         }
@@ -53,15 +57,19 @@ public class RunButtonAction implements ActionListener {
                     }
                 }
 
-                resultMessages = resultMessages + "\n\n\n" + successCount + " tests succeeded\n"
-                        + failureCount + " tests failed\n" + exceptionCount + " tests failed because of exception\n";
-                textArea.setText(resultMessages);
+                addTextToTextArea();
 
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException |
                      InvocationTargetException | NoSuchMethodException ex) {
                 throw new RuntimeException(ex);
             }
         }
+    }
+
+    private void addTextToTextArea() {
+        resultMessages = resultMessages + "\n\n\n" + successCount + " tests succeeded\n"
+                + failureCount + " tests failed\n" + exceptionCount + " tests failed because of exception\n";
+        textArea.setText(resultMessages);
     }
 
     private Method findMethod(Class<?> clazz, String methodName) throws NoSuchMethodException {
@@ -118,4 +126,5 @@ public class RunButtonAction implements ActionListener {
     public JTextArea getTextArea() {
         return textArea;
     }
+
 }
