@@ -14,7 +14,7 @@ public class RunButtonAction implements ActionListener {
     private int exceptionCount;
     private JTextArea textArea;
 
-    public RunButtonAction(JTextField textField, JButton runButton, JTextArea textArea) {
+    public RunButtonAction(JTextField textField, JButton runButton, JTextArea textArea){
         this.runButton = runButton;
         this.textField = textField;
         this.textArea = textArea;
