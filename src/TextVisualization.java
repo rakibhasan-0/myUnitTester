@@ -1,39 +1,25 @@
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.border.EmptyBorder;
 
 public class TextVisualization {
-    JTextArea textArea;
-    JFrame frame;
-    JButton runButton;
+    private JTextArea textArea;
+    private JScrollPane scrollPane;
 
-    public TextVisualization(JFrame frame, JButton button) {
-
-        this.frame = frame;
-        runButton = button;
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
+    public TextVisualization() {
         textArea = new JTextArea();
-        textArea.setFont(new Font("Arial", Font.BOLD, 12));
-        textArea.setRows(10); // Setting the number of visible rows
+        textArea.setFont(new Font("Arial", Font.BOLD, 14));
+        textArea.setRows(10);
         textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-
-        // Set the preferred size of the JScrollPane
-        scrollPane.setPreferredSize(new Dimension(20, 50));
-        panel.add(scrollPane); // Add the scrollPane to the panel
-
-        // Create a rounded yellow border for the pane
-        panel.setBorder(new EmptyBorder(0, 0, 80, 0));
-
-        frame.add(panel, BorderLayout.CENTER);
-
+        scrollPane = new JScrollPane(textArea); // This already adds textArea to scrollPane
+        scrollPane.setPreferredSize(new Dimension(600, 600));
+        //scrollPane.add(textArea);
     }
 
-    JTextArea getTextArea() {
+    public JTextArea getTextArea() {
         return textArea;
     }
 
+    public JScrollPane getScrollPane() {
+        return scrollPane;
+    }
 }

@@ -1,3 +1,6 @@
+import se.umu.cs.unittest.MyInt;
+import se.umu.cs.unittest.TestClass;
+
 public class Test1 implements TestClass {
 	private MyInt myInt;
 
@@ -22,7 +25,6 @@ public class Test1 implements TestClass {
 		myInt.increment();
 		myInt.increment();
 		return myInt.value()==2;
-
 	}
 
 	//Test that should succeed
@@ -37,14 +39,14 @@ public class Test1 implements TestClass {
 		myInt=null;
 		myInt.decrement();
 		return true;
-
 	}
 
 	//Test that should fail
 	public boolean testFailing() {
 		return false;
-
 	}
+
+
 
 
 }

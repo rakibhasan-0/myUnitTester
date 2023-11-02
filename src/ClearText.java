@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class ClearText {
     private final JButton clearButton;
-
     public ClearText(JFrame frame) {
         JPanel clearPanel = new JPanel();
         clearButton = new JButton("CLEAR");
@@ -14,10 +13,8 @@ public class ClearText {
         frame.add(clearPanel, BorderLayout.SOUTH);
     }
 
-
     public JButton getClearButton() {
         return clearButton;
     }
-
 
 }
