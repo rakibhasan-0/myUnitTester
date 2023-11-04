@@ -46,7 +46,4 @@ public class Test1 implements TestClass {
 		return false;
 	}
 
-
-
-
 }

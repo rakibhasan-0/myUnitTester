@@ -10,9 +10,9 @@ public class TextVisualization {
         textArea.setFont(new Font("Arial", Font.BOLD, 14));
         textArea.setRows(10);
         textArea.setEditable(false);
-        scrollPane = new JScrollPane(textArea); // This already adds textArea to scrollPane
+        scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(600, 600));
-        //scrollPane.add(textArea);
+
     }
 
     public JTextArea getTextArea() {

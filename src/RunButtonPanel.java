@@ -2,12 +2,12 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class ButtonPanel {
+public class RunButtonPanel {
     private JPanel panelForRunButton;
     private JButton runButton;
     private JTextField textField;
 
-    public ButtonPanel() {
+    public RunButtonPanel() {
         panelForRunButton = new JPanel(new BorderLayout());
         runButton = new JButton("RUN");
         textField = new JTextField();

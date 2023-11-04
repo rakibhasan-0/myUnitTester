@@ -1,3 +1,5 @@
+import se.umu.cs.unittest.TestClass;
+
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,32 +10,28 @@ public class TestRunner {
     private int failureCount = 0;
     private int exceptionCount = 0;
 
-    public String runTests(String className) {
+
+
+    public String runTests(String className){
         try {
             reset();
             Class<?> testClass = Class.forName(className);
-            if (!hasZeroArgumentConstructor(testClass)) {
-                throw new IllegalArgumentException();
+            if (!TestClass.class.isAssignableFrom(testClass)) {
+                throw new IllegalArgumentException("Class does not implement TestClass interface");
             }
-            Object testInstance = testClass.getDeclaredConstructor().newInstance();
+            if (!hasZeroArgumentConstructor(testClass)) {
+                throw new IllegalArgumentException("The class must have a no-argument constructor");
+            }
 
+            TestClass testInstance = (TestClass) testClass.getDeclaredConstructor().newInstance();
             Method setUpMethod = testClass.getMethod("setUp");
             Method tearDownMethod = testClass.getMethod("tearDown");
-
-            if (setUpMethod == null || tearDownMethod == null) {
-                throw new IllegalAccessException();
-            }
 
             executeTestMethods(testClass, testInstance, setUpMethod, tearDownMethod);
             updateText();
 
-        } catch (ClassNotFoundException | IllegalArgumentException |
-                 IllegalAccessException | NoSuchMethodException |
-                 InvocationTargetException | InstantiationException e) {
+        } catch (Exception e) {
             handleException(e);
-        }
-        catch (Exception e){
-            showErrorMessage("Something Unexpected Happened");
         }
         return resultMessages;
     }
@@ -57,12 +55,12 @@ public class TestRunner {
         }
     }
 
-    private void executeTestMethods(Class<?> clazz, Object instance, Method setUpMethod, Method tearDownMethod) throws Exception {
+    private void executeTestMethods(Class<?> clazz, TestClass instance, Method setUpMethod, Method tearDownMethod) throws Exception {
         for (Method method : clazz.getMethods()) {
             if (isTestMethod(method)) {
-                setUpMethod.invoke(instance);
+                if (setUpMethod != null) setUpMethod.invoke(instance);
                 invokeTestMethod(instance, method);
-                tearDownMethod.invoke(instance);
+                if (tearDownMethod != null) tearDownMethod.invoke(instance);
             }
         }
     }
@@ -72,7 +70,6 @@ public class TestRunner {
                 successCount, failureCount, exceptionCount);
         resultMessages += "\n\n\n" + summary;
     }
-
 
     private void invokeTestMethod(Object instance, Method method) {
         try {
@@ -84,9 +81,6 @@ public class TestRunner {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-
-
 
     private void processTestResult(String methodName, boolean result) {
         if (result) {
@@ -119,7 +113,6 @@ public class TestRunner {
         resultMessages += methodName + ": EXCEPTION - " + cause.getClass().getSimpleName() + "\n";
         exceptionCount++;
     }
-
 
     private void reset() {
         resultMessages = "";

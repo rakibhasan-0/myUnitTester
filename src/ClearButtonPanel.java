@@ -2,9 +2,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class ClearText {
+public class ClearButtonPanel {
     private final JButton clearButton;
-    public ClearText(JFrame frame) {
+    public ClearButtonPanel(JFrame frame) {
         JPanel clearPanel = new JPanel();
         clearButton = new JButton("CLEAR");
         clearPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
