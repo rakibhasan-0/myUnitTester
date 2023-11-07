@@ -1,3 +1,7 @@
+package Model;
+
+import Model.TestRunner;
+
 import javax.swing.*;
 import java.util.concurrent.ExecutionException;
 

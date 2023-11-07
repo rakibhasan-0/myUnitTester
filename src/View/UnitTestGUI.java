@@ -1,3 +1,8 @@
+package View;
+
+import Controller.RunActionHandler;
+import Controller.TextUIHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
