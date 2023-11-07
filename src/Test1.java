@@ -1,7 +1,7 @@
 import se.umu.cs.unittest.MyInt;
 import se.umu.cs.unittest.TestClass;
 
-public class Test1 {
+public class Test1 implements TestClass{
 	private MyInt myInt;
 
 	public Test1() {
